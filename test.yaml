@@ -1,0 +1,81 @@
+version: '3.1'
+
+services:
+  orders:
+    build: ./orders/.
+    container_name: api_orders
+    labels:
+      - app-orders
+    ports:
+      - "9090:9090"
+  stock:
+    build: ./gestionProduct/.
+    container_name: api_stock
+    labels:
+      - app-stock
+    ports:
+      - "9091:9091"
+
+  # postgres db:
+  database:
+    image: postgres
+    container_name: postgres
+    labels:
+      - app-postgres
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: orders_db
+    ports:
+      - "5431:5431"
+#    healthcheck:
+#      test: ["CMD", "pg_isready", "-U", "postgres"]
+#      interval: 5s
+#      timeout: 5s
+#      retries: 20
+
+#  # mongo db:
+#  mongo:
+#    image: mongo
+#    labels:
+#      - app_docker
+#    restart: always
+#    environment:
+#      MONGO_INITDB_ROOT_USERNAME: root
+#      MONGO_INITDB_ROOT_PASSWORD: root
+#    ports:
+#      - "27018:27017"
+
+  # mysql db:
+#  mysqldb:
+#      image: mysql:8.0.30
+#      environment:
+#        - MYSQL_ROOT_PASSWORD=root
+#        - MYSQL_ALLOW_EMPTY_PASSWORD=yes
+#        - MYSQL_DATABASE=orders
+#      # If you want to expose these ports outside your dev PC,
+#      # remove the "127.0.0.1:" prefix
+#      ports:
+#        - 127.0.0.1:3306:3306
+#      command: mysqld --lower_case_table_names=1 --skip-ssl --character_set_server=utf8mb4 --explicit_defaults_for_timestamp
+#      healthcheck:
+#        test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost", "-uroot", "-ppass"] # Command to check health.
+#        interval: 5s # Interval between each health checking.
+#        timeout: 5s # Timeout for each health checking.
+#        retries: 20 # Hou many times retries.
+
+#  redis:
+#    image: bitnami/redis
+#    labels:
+#      - app-redis
+#    restart: always
+#    environment:
+#      - ALLOW_EMPTY_PASSWORD=yes
+#    ports:
+#      - "16379:6379"
+
+networks:
+  default:
+    external:
+      name: app_cloud_feign_docker

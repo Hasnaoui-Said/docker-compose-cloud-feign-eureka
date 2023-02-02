@@ -1,0 +1,31 @@
+version: '3.3'
+services:
+  orders:
+    container_name: orders
+    image: orders
+    build: orders/
+    ports:
+      - "9090:9090"
+    depends_on:
+      - stock
+  stock:
+    container_name: stock
+    image: stock
+    build: gestionProduct/
+    ports:
+      - "9091:9091"
+    depends_on:
+      - database
+  database:
+    image: postgres:latest
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=orders_db
+
+# Create a network for the app with the name app-net
+networks:
+  default:
+    name: app-net

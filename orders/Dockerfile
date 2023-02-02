@@ -1,9 +1,9 @@
 FROM openjdk:11.0.2-jdk-oracle
 
-WORKDIR /yb-back-end
+WORKDIR /orders
 
-COPY ./target/demo-0.0.1-SNAPSHOT.jar /demo-0.0.1-SNAPSHOT.jar
+COPY target/demo-0.0.1-SNAPSHOT.jar orders/
 
 EXPOSE 9090
 
-CMD ["java","-jar","/demo-0.0.1-SNAPSHOT.jar"]
+CMD ["java","-jar","orders/demo-0.0.1-SNAPSHOT.jar"]
