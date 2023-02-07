@@ -1,15 +1,15 @@
 version: '3.3'
 services:
   orders:
-    container_name: orders
-    image: orders
+    container_name: orders-container
+    image: orders-container
     build: orders/
     ports:
       - "9090:9090"
     depends_on:
       - stock
   stock:
-    container_name: stock
+    container_name: stock-container
     image: stock
     build: gestionProduct/
     ports:
@@ -18,6 +18,7 @@ services:
       - database
   database:
     image: postgres:latest
+    container_name: postgres-container
     ports:
       - "5432:5432"
     environment:
@@ -25,7 +26,7 @@ services:
       - POSTGRES_USER=postgres
       - POSTGRES_DB=orders_db
 
-# Create a network for the app with the name app-net
 networks:
   default:
-    name: app-net
+    name: app-cloud-feign-net
+
